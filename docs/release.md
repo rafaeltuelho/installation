@@ -1,6 +1,6 @@
 # Releases
 
-## New Releases
+## New Minor Release
 
 ### Installation Repo
 
@@ -9,7 +9,6 @@
 3) Run the release script:
     
     ``` ./scripts/release.sh -b v2.7 -r release-2.7.0-rc1```
-
 
 ### Resetting the upgrade playbook on master
 
@@ -34,8 +33,35 @@ Any release specific upgrade changes that need to be merged while a release is i
 3) Review any `Known Issues` in the [Installation SOP](https://github.com/fheng/integreatly-help/blob/master/sops/OSD_SRE_integreatly_install.asciidoc), and add/remove as appropriate for this release.
 4) Commit and push back the new branch to the upstream
 
-## New RCs and Patch releases     
-If you are cutting a new rc or a patch release for an existing release then do the following
+
+## New Patch Release
+
+### Jira & other non-code process
+
+* Ensure the scope of the patch release is agreed on with relevant stakeholders.
+* All issues should have a fixVersion of the planned patch release e.g. 1.5.1.
+* A test plan to cover the installation and upgrade paths for what's changing in the release should be agreed with QE.
+* TODO: Steps to setup a release dashboard and a recurring checkpoint call for the release.
+
+Q: Should the release call only start after RC1?
+
+### Installation Repo
+
+All code changes should be applied or cherrypicked to the minor release branch (e.g. v2.7) **after** being applied to master first.
+This is to avoid regressions when the next minor release happens.
+The upgrade playbook in `playbooks/upgrades/upgrade.yml` should be emptied of all tasks except for the version prerequisite check and manifest update task.
+A patch release relies on the previous patch version having being installed/upgraded to already.
+For example, to get from 1.4.1 to 1.5.1, you first need to upgrade to 1.5.0.
+
+To create rc1 of a patch release do the following, where `v2.7` is an example release branch already created, and `2.7.1` is the patch release:
+
+    ``` ./scripts/release.sh -b v2.7 -r release-2.7.1-rc1```
+
+## New RC of a Minor or Patch Release
+
+### Installation Repo
+
+If you are cutting a new rc for an existing release then do the following:
 
 1) Check with the team if there is anything remaining to be cherry picked to the release branch
 2) Run the release script:
@@ -43,9 +69,4 @@ If you are cutting a new rc or a patch release for an existing release then do t
 For example to cut rc2 for release 2.7.0
        
        ``` ./scripts/release.sh -b v2.7 -r release-2.7.0-rc2```
-       
-To create rc1 of a patch release       
 
-    ``` ./scripts/release.sh -b v2.7 -r release-2.7.1-rc1```
-       
-            
