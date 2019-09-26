@@ -39,6 +39,10 @@ eval_threescale_enable_wildcard_route: false
 # NOTE: When run_master_tasks is false, this var will also be set to false, with the
 #       expectation that `oc` is already logged in as a cluster-admin user
 create_cluster_admin: true
+
+# DO NOT DELETE user's namespaces during uninstall! 
+# if you want to wipe user's namespaces you have to explicitly set this var to 'false'
+keep_namespaces: true
 # override to set a namespace prefix.
 
 
